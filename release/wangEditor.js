@@ -2602,7 +2602,7 @@ Video.prototype = {
             tpl: '<div class="w-e-up-img-container">\n                    ' +
             '<div id="' + upTriggerId + '" class="w-e-up-btn">\n                        ' +
             '<i class="w-e-icon-upload2"></i>\n                    </div>\n                    ' +
-            '<div style="display:none;">\n                        <input id="' + upFileId + '" type="file" multiple="multiple" accept="audio/mp4, video/mp4"/>\n                    ' +
+            '<div style="display:none;">\n                        <input id="' + upFileId + '" type="file" multiple="multiple" accept="audio/mp3, video/mp4"/>\n                    ' +
             '</div>\n                            </div>',
             events: [{
                 // 触发选择视频
@@ -4437,7 +4437,7 @@ UploadVideo.prototype = {
 					}
 			}
 
-			editor.cmd.do('insertHTML', '<video src="' + link + '" style="width:50%;height: 50%;" controls autobuffer autoplay muted/>');
+			editor.cmd.do('insertHTML', '<video src="' + link + '" style="width:640px;" controls autobuffer/>');
 
 			// 验证视频 url 是否有效，无效的话给出提示
 			var video = document.createElement('video');
@@ -4476,8 +4476,9 @@ UploadVideo.prototype = {
 			var maxSize = 100 * 1024 * 1024;       //100M
 			var maxSizeM = maxSize / 1000 / 1000;
 			var maxLength = 1;
-			var uploadFileName = "file";
-			var uploadVideoParams = config.uploadVideoParams || {};
+			var uploadFileName = config.uploadFileName || "files";
+			var uploadVideoParams = config.uploadImgParams || {};
+			var uploadVideoParamsWithUrl = config.uploadVideoParamsWithUrl;
 			var uploadVideoHeaders = {};
 			var hooks =config.uploadImgHooks || {};
 			var timeout = 5 * 60 * 1000;        //5 min
@@ -4498,7 +4499,7 @@ UploadVideo.prototype = {
 							return;
 					}
 
-					if (/\.(mp4)$/i.test(name) === false) {
+					if (/\.(mp4|mp3)$/i.test(name) === false) {
 							// 后缀名不合法，不是视频
 							errInfo.push('\u3010' + name + '\u3011\u4e0d\u662f\u89c6\u9891');
 							return;
